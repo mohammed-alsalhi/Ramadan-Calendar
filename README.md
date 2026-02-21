@@ -95,7 +95,8 @@ Build a frontend that:
 
 2. **Displays a Ramadan calendar** — a list or grid showing all 30 days, with each day's date, Sahur time, and Iftar time. The current day should be visually highlighted.
 
-3. **Shows a countdown timer** below the calendar that displays how long is left until the next Suhoor or Iftaar, updating in real time.
+3. **Shows a countdown timer** below the calendar that displays how long is left until the next Suhoor or Iftaar, updating in real 
+time.
 
 ---
 

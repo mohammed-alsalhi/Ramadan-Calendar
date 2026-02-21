@@ -1,35 +1,36 @@
 import os
 
 import httpx
-from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-
-load_dotenv()
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["*"],
     allow_methods=["GET"],
     allow_headers=["*"],
 )
 
-ISLAMIC_API_KEY = os.getenv("ISLAMIC_API_KEY")
+ISLAMIC_API_KEY = os.environ.get("ISLAMIC_API_KEY", "")
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+    "Accept": "application/json",
+}
 
 
-@app.get("/")
+@app.get("/api")
 async def root():
     return {"message": "Salaam World"}
 
 
-@app.get("/ramadan")
+@app.get("/api/ramadan")
 async def get_ramadan(lat: str = Query(...), lon: str = Query(...)):
     if not ISLAMIC_API_KEY:
         raise HTTPException(status_code=500, detail="API key not configured")
 
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=15, headers=HEADERS) as client:
         response = await client.get(
             "https://islamicapi.com/api/v1/ramadan/",
             params={"lat": lat, "lon": lon, "api_key": ISLAMIC_API_KEY},
@@ -59,7 +60,7 @@ async def get_ramadan(lat: str = Query(...), lon: str = Query(...)):
     }
 
 
-@app.get("/prayer-times")
+@app.get("/api/prayer-times")
 async def get_prayer_times(
     lat: str = Query(...),
     lon: str = Query(...),
@@ -68,7 +69,7 @@ async def get_prayer_times(
     if not ISLAMIC_API_KEY:
         raise HTTPException(status_code=500, detail="API key not configured")
 
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=15, headers=HEADERS) as client:
         response = await client.get(
             "https://islamicapi.com/api/v1/prayer-time/",
             params={

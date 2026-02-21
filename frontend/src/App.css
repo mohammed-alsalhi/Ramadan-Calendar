@@ -1,6 +1,1149 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: linear-gradient(160deg, #0c0a1d 0%, #1a1145 40%, #0f172a 100%);
+  color: #e2e8f0;
+  min-height: 100vh;
+}
+
 #root {
-  max-width: 1280px;
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem 1rem 2rem;
+}
+
+/* Header */
+.app-header {
   text-align: center;
+  margin-bottom: 1rem;
+}
+
+.header-icon {
+  font-size: 2.2rem;
+  color: #fbbf24;
+  margin-bottom: 0.1rem;
+  animation: float 3s ease-in-out infinite;
+  text-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.app-header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fefce8;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 12px rgba(251, 191, 36, 0.15);
+}
+
+.header-subtitle {
+  font-size: 0.8rem;
+  color: #a78bfa;
+  margin-top: 0.15rem;
+  letter-spacing: 0.05em;
+}
+
+/* Status / Loading */
+.status {
+  text-align: center;
+  padding: 6rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.loading-moon {
+  font-size: 3.5rem;
+  color: #fbbf24;
+  text-shadow: 0 0 40px rgba(251, 191, 36, 0.5);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(1); text-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
+  50% { transform: scale(1.15); text-shadow: 0 0 50px rgba(251, 191, 36, 0.6); }
+}
+
+.loading-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #c4b5fd;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.loading-dots {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.loading-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #a78bfa;
+  animation: bounce-dot 1.4s ease-in-out infinite;
+}
+
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce-dot {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1.2); opacity: 1; }
+}
+
+.status.error {
+  color: #f87171;
+}
+
+/* Error Screen */
+.error-screen {
+  text-align: center;
+  padding: 6rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.error-icon {
+  font-size: 3rem;
+  color: #f87171;
+  text-shadow: 0 0 30px rgba(248, 113, 113, 0.4);
+}
+
+.error-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fca5a5;
+  letter-spacing: 0.02em;
+}
+
+.error-message {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  max-width: 280px;
+  line-height: 1.5;
+}
+
+.error-retry {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid #4338ca;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4c1d95, #6d28d9);
+  color: #fefce8;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.error-retry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(109, 40, 217, 0.4);
+}
+
+.error-retry:active {
+  transform: translateY(0);
+}
+
+.error-retry:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 2px;
+}
+
+/* Countdown */
+.countdown {
+  text-align: center;
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+  border: 1px solid #4338ca;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-top: 1.25rem;
+  box-shadow: 0 4px 30px rgba(67, 56, 202, 0.25);
+}
+
+.countdown-label {
+  font-size: 0.8rem;
+  color: #c4b5fd;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.countdown-digits {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.digit-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.digit {
+  font-size: 2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #fbbf24;
+  text-shadow: 0 0 24px rgba(251, 191, 36, 0.35);
+  background: rgba(251, 191, 36, 0.08);
+  border-radius: 8px;
+  padding: 0.1rem 0.45rem;
+  min-width: 56px;
+}
+
+.digit-label {
+  font-size: 0.55rem;
+  color: #7c6faa;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 0.2rem;
+}
+
+.digit-sep {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #6d28d9;
+  padding-bottom: 0.8rem;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* Progress */
+.progress-section {
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.progress-text {
+  font-size: 0.75rem;
+  color: #a78bfa;
+  margin-bottom: 0.35rem;
+  letter-spacing: 0.03em;
+}
+
+.progress-text strong {
+  color: #fbbf24;
+  font-size: 0.85rem;
+}
+
+.progress-bar {
+  height: 6px;
+  background: rgba(30, 27, 75, 0.6);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid #312e81;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6d28d9, #a78bfa, #fbbf24);
+  border-radius: 3px;
+  transition: width 0.8s ease;
+}
+
+/* Calendar */
+.calendar {
+  background: rgba(30, 27, 75, 0.35);
+  border: 1px solid #312e81;
+  border-radius: 12px;
+  padding: 0.75rem;
+  backdrop-filter: blur(8px);
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.calendar-weekday {
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #a78bfa;
+  padding: 0.3rem 0;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+/* Calendar Cells */
+.calendar-cell {
+  position: relative;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(30, 27, 75, 0.8);
+  border-radius: 8px;
+  padding: 0.4rem;
+  min-height: 75px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.calendar-cell:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  border-color: #4338ca;
+}
+
+.calendar-cell.empty {
+  background: transparent;
+  border: 1px dashed rgba(30, 27, 75, 0.5);
+  min-height: 0;
+}
+
+.calendar-cell.empty:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.calendar-cell.past {
+  opacity: 0.45;
+}
+
+.calendar-cell.past:hover {
+  opacity: 0.7;
+}
+
+.calendar-cell.today {
+  background: linear-gradient(135deg, #4c1d95, #7c3aed);
+  border-color: #a78bfa;
+  box-shadow: 0 0 20px rgba(167, 139, 250, 0.35);
+  opacity: 1;
+  padding-top: 1rem;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 12px rgba(167, 139, 250, 0.2); }
+  to { box-shadow: 0 0 24px rgba(167, 139, 250, 0.45); }
+}
+
+.cell-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.25rem;
+}
+
+.cell-day-num {
+  font-weight: 700;
+  font-size: 0.65rem;
+  color: #fbbf24;
+}
+
+.today .cell-day-num {
+  color: #fef08a;
+}
+
+.cell-date {
+  font-size: 0.6rem;
+  color: #64748b;
+}
+
+.today .cell-date {
+  color: #c4b5fd;
+}
+
+/* Hijri Date - hidden on grid, shown in modal */
+.cell-hijri {
+  display: none;
+}
+
+/* Times */
+.cell-times {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.cell-time {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.cell-time-icon {
+  font-size: 0.7rem;
+  width: 14px;
+  text-align: center;
+}
+
+.sahur-time .cell-time-icon {
+  color: #818cf8;
+}
+
+.iftar-time .cell-time-icon {
+  color: #fbbf24;
+}
+
+.cell-time-value {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: #cbd5e1;
+}
+
+.today .cell-time-value {
+  color: #f5f3ff;
+  font-weight: 600;
+}
+
+/* Duration - hidden on grid, shown in modal */
+.cell-duration {
+  display: none;
+}
+
+/* Today Badge */
+.today-badge {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  background: #fbbf24;
+  color: #1e1b4b;
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 10px 0 8px 0;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  position: relative;
+  background: linear-gradient(160deg, #1e1b4b, #0f172a);
+  border: 1px solid #4338ca;
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: 0 8px 40px rgba(67, 56, 202, 0.3);
+  animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.modal-close:hover {
+  color: #e2e8f0;
+}
+
+/* Modal Header */
+.modal-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-day-num {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fbbf24;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.modal-date {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #f8fafc;
+  margin-top: 0.2rem;
+}
+
+.modal-hijri {
+  font-size: 0.8rem;
+  color: #a78bfa;
+  margin-top: 0.15rem;
+}
+
+/* Fasting Section */
+.modal-fasting {
+  background: rgba(67, 56, 202, 0.15);
+  border: 1px solid #312e81;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.modal-fasting-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0;
+}
+
+.modal-fasting-row + .modal-fasting-row {
+  border-top: 1px solid rgba(67, 56, 202, 0.2);
+}
+
+.modal-fasting-icon {
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+}
+
+.modal-fasting-label {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  flex: 1;
+}
+
+.modal-fasting-time {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fbbf24;
+}
+
+.modal-duration {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #6d5faa;
+  margin-top: 0.6rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(67, 56, 202, 0.2);
+}
+
+/* Prayer Times Section */
+.modal-section-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #a78bfa;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.modal-loading {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #64748b;
+  padding: 1rem 0;
+}
+
+.modal-prayer-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.modal-prayer-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+
+.modal-prayer-row:hover {
+  background: rgba(67, 56, 202, 0.1);
+}
+
+.modal-prayer-icon {
+  font-size: 0.95rem;
+  width: 22px;
+  text-align: center;
+}
+
+.modal-prayer-name {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  flex: 1;
+}
+
+.modal-prayer-time {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Share Button — modal (full width) */
+.share-btn {
+  display: block;
+  width: 100%;
+  margin-top: 1.25rem;
+  padding: 0.6rem;
+  border: 1px solid #4338ca;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4c1d95, #6d28d9);
+  color: #fefce8;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(109, 40, 217, 0.4);
+}
+
+.share-btn:active {
+  transform: translateY(0);
+}
+
+/* Share Button — inline pill (dua/hadith) */
+.dua-hadith-content .share-btn {
+  display: inline-block;
+  width: auto;
+  margin-top: 1rem;
+  padding: 0.35rem 1.2rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  background: rgba(109, 40, 217, 0.25);
+  border-color: #6d28d9;
+  color: #c4b5fd;
+}
+
+.dua-hadith-content .share-btn:hover {
+  background: rgba(109, 40, 217, 0.45);
+  color: #fefce8;
+  box-shadow: 0 2px 14px rgba(109, 40, 217, 0.3);
+}
+
+/* Help Button */
+.help-btn {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 50;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #4338ca;
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+  color: #a78bfa;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(67, 56, 202, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s, color 0.2s;
+}
+
+.help-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(67, 56, 202, 0.5);
+  color: #fbbf24;
+}
+
+/* Help Modal */
+.help-modal {
+  position: relative;
+  background: linear-gradient(160deg, #1e1b4b, #0f172a);
+  border: 1px solid #4338ca;
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 8px 40px rgba(67, 56, 202, 0.3);
+  animation: slideUp 0.25s ease;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.help-title {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fbbf24;
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.04em;
+}
+
+.help-section {
+  margin-bottom: 1rem;
+}
+
+.help-heading {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #a78bfa;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.3rem;
+}
+
+.help-section p {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.help-divider {
+  height: 1px;
+  background: #312e81;
+  margin: 1rem 0;
+}
+
+/* Breaking Now */
+.breaking-now {
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+  border: 1px solid #4338ca;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-top: 1.25rem;
+  box-shadow: 0 4px 30px rgba(67, 56, 202, 0.25);
+  text-align: center;
+}
+
+.breaking-header {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fbbf24;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.75rem;
+}
+
+.breaking-section + .breaking-section {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(67, 56, 202, 0.3);
+}
+
+.breaking-label {
+  font-size: 0.6rem;
+  color: #7c6faa;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+}
+
+.breaking-cities {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.breaking-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid #312e81;
+  border-radius: 20px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.72rem;
+  color: #c4b5fd;
+  transition: all 0.3s;
+}
+
+.breaking-chip.active {
+  border-color: #fbbf24;
+  color: #fefce8;
+  background: rgba(251, 191, 36, 0.1);
+  animation: chip-glow 2s ease-in-out infinite;
+}
+
+@keyframes chip-glow {
+  0%, 100% { box-shadow: 0 0 6px rgba(251, 191, 36, 0.15); }
+  50% { box-shadow: 0 0 18px rgba(251, 191, 36, 0.35); }
+}
+
+.breaking-chip.faded {
+  opacity: 0.6;
+}
+
+.breaking-eta {
+  font-size: 0.6rem;
+  color: #6d5faa;
+  font-weight: 600;
+}
+
+.breaking-chip.active .breaking-eta {
+  color: #fbbf24;
+}
+
+/* Dua & Hadith */
+.dua-hadith {
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+  border: 1px solid #4338ca;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-top: 1.25rem;
+  box-shadow: 0 4px 30px rgba(67, 56, 202, 0.25);
+}
+
+.dua-hadith-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.dua-hadith-tab {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid #312e81;
+  border-radius: 20px;
+  padding: 0.3rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.04em;
+}
+
+.dua-hadith-tab:hover {
+  color: #c4b5fd;
+  border-color: #4338ca;
+}
+
+.dua-hadith-tab.active {
+  background: rgba(167, 139, 250, 0.15);
+  border-color: #a78bfa;
+  color: #fbbf24;
+}
+
+.dua-hadith-content {
+  text-align: center;
+}
+
+.dua-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #a78bfa;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.03em;
+}
+
+.dua-arabic {
+  font-size: 1.2rem;
+  line-height: 2;
+  color: #fefce8;
+  direction: rtl;
+  font-family: "Traditional Arabic", "Scheherazade New", serif;
+  margin-bottom: 0.75rem;
+}
+
+.dua-transliteration {
+  font-size: 0.8rem;
+  color: #c4b5fd;
+  font-style: italic;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.dua-translation {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.dua-reference {
+  font-size: 0.7rem;
+  color: #6d5faa;
+  letter-spacing: 0.03em;
+}
+
+/* ============================================================
+   MOBILE RESPONSIVENESS
+   ============================================================ */
+
+/* Tablets */
+@media (max-width: 768px) {
+  .calendar-grid {
+    gap: 3px;
+  }
+
+  .calendar-header {
+    gap: 3px;
+  }
+
+  .calendar-cell {
+    min-height: 65px;
+    padding: 0.3rem;
+  }
+
+  .countdown-digits {
+    gap: 0.35rem;
+  }
+
+  .digit {
+    font-size: 1.6rem;
+    min-width: 48px;
+  }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  #root {
+    padding: 0.75rem 0.35rem 2rem;
+  }
+
+  .app-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .calendar {
+    padding: 0.35rem;
+    border-radius: 10px;
+  }
+
+  .calendar-grid {
+    gap: 2px;
+  }
+
+  .calendar-header {
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+
+  .calendar-weekday {
+    font-size: 0.5rem;
+    padding: 0.2rem 0;
+  }
+
+  .calendar-cell {
+    min-height: 52px;
+    padding: 0.2rem;
+    border-radius: 5px;
+  }
+
+  .calendar-cell.empty {
+    min-height: 0;
+  }
+
+  .cell-header {
+    margin-bottom: 0.15rem;
+  }
+
+  .cell-day-num {
+    font-size: 0.55rem;
+  }
+
+  .cell-date {
+    font-size: 0.45rem;
+  }
+
+  .cell-time-value {
+    font-size: 0.5rem;
+  }
+
+  .cell-time-icon {
+    font-size: 0.5rem;
+    width: 10px;
+  }
+
+  .cell-time {
+    gap: 0.15rem;
+  }
+
+  .cell-times {
+    gap: 0.15rem;
+  }
+
+  .today-badge {
+    font-size: 0.4rem;
+    padding: 0.1rem 0.3rem;
+  }
+
+  .calendar-cell.today {
+    padding-top: 0.7rem;
+  }
+
+  .countdown {
+    padding: 0.75rem 1rem;
+  }
+
+  .countdown-label {
+    font-size: 0.7rem;
+  }
+
+  .digit {
+    font-size: 1.35rem;
+    min-width: 40px;
+    padding: 0.05rem 0.3rem;
+  }
+
+  .digit-sep {
+    font-size: 1.2rem;
+  }
+
+  .digit-label {
+    font-size: 0.5rem;
+  }
+
+  .modal-content {
+    padding: 1.5rem 1.25rem;
+    border-radius: 16px;
+    max-width: 100%;
+  }
+
+  .modal-overlay {
+    padding: 0.5rem;
+  }
+
+  .help-modal {
+    padding: 1.5rem 1.25rem;
+    max-width: 100%;
+  }
+
+  .breaking-now {
+    padding: 0.75rem 0.75rem;
+  }
+
+  .breaking-chip {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+  }
+
+  .dua-hadith {
+    padding: 0.75rem 0.75rem;
+  }
+
+  .dua-arabic {
+    font-size: 1rem;
+  }
+
+  .dua-transliteration,
+  .dua-translation {
+    font-size: 0.75rem;
+  }
+
+  .share-btn {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+
+  .help-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+/* ============================================================
+   FOCUS STYLES (Accessibility)
+   ============================================================ */
+.calendar-cell:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 2px;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  border-color: #4338ca;
+}
+
+.dua-hadith-tab:focus-visible,
+.share-btn:focus-visible,
+.help-btn:focus-visible,
+.modal-close:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 2px;
+}
+
+/* Skip to content link (screen reader) */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4c1d95;
+  color: #fefce8;
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 8px 8px;
+  z-index: 1000;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .calendar-cell:hover {
+    transform: none;
+  }
+
+  .share-btn:hover {
+    transform: none;
+  }
+
+  .help-btn:hover {
+    transform: none;
+  }
 }
